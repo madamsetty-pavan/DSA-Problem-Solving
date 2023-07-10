@@ -12,18 +12,9 @@
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-        int mindepth = INT_MAX;
-        calMinDepth(root, 1, mindepth);
-        if(mindepth == INT_MAX) return 0;
-        return mindepth;
-    }
-    void calMinDepth(TreeNode* root, int depth, int &mindepth) {
-        if(!root) return;
-        if(!root->left && !root->right) {
-            mindepth = min(depth, mindepth);
-            return;
-        }
-        calMinDepth(root->left, depth+1, mindepth);
-        calMinDepth(root->right, depth+1, mindepth);
-    }
+        if(!root) return 0;
+        if(!root->left) return 1+minDepth(root->right);
+        if(!root->right) return 1+minDepth(root->left);
+        return min(minDepth(root->left),minDepth(root->right))+1;
+    } 
 };
