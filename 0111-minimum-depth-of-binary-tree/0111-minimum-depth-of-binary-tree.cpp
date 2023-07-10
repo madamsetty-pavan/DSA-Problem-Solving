@@ -11,16 +11,16 @@
  */
 class Solution {
 public:
-    // int minDepth(TreeNode* root) {
-    //     //DFS Solution
-    //     if(!root) return 0;
-    //     // only right child tree exists
-    //     if(!root->left) return 1+minDepth(root->right);
-    //     // only left child tree exists
-    //     if(!root->right) return 1+minDepth(root->left);
-    //     // both child exists
-    //     return min(minDepth(root->left),minDepth(root->right))+1;
-    // } 
+    int minDepth(TreeNode* root) {
+        //DFS Solution
+        if(!root) return 0;
+        // only right child tree exists
+        if(!root->left) return 1+minDepth(root->right);
+        // only left child tree exists
+        if(!root->right) return 1+minDepth(root->left);
+        // both child exists
+        return min(minDepth(root->left),minDepth(root->right))+1;
+    } 
 
 
     int minDepth(TreeNode* root) {
