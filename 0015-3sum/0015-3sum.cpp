@@ -4,8 +4,7 @@ public:
         vector<vector<int>> ans;
         sort(nums.begin(),nums.end());
         int n = nums.size();
-        for(int i=0;i<n;i++) {
-            while(i<n && i>=1 && nums[i]==nums[i-1]) i++;
+        for(int i=0;i<n;) {      
             int left = i+1, right = n-1, sum=0;
             while(left<right) {
                 sum = nums[i] + nums[left] + nums[right];
@@ -18,6 +17,8 @@ public:
                 } else if(sum<0) left++;
                 else right--;
             }
+            i++;
+            while(i<n && nums[i]==nums[i-1]) i++;
         }
         return ans;
     }
