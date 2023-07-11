@@ -10,4 +10,3 @@ public:
         return nums[left];
     }
 };
-
