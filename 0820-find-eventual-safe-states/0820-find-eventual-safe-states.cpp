@@ -18,7 +18,7 @@ public:
     }
 
     void dfs(vector<vector<int>> &graph, vector<bool> &isEnd, int index, vector<bool> & visited) {
-        if(isEnd[index] || visited[index]) return;
+        if(visited[index]) return;
         visited[index] = 1; 
         bool isNodeEnd = true;   
         for(int i=0;i<graph[index].size();i++) {
