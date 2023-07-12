@@ -5,12 +5,6 @@ public:
         int n = graph.size();
         vector<bool> isEnd(n,0), visited(n,0);
         for(int i=0;i<n;i++) {
-            if(graph[i].size()==0) {
-            visited[i] = 1;
-            isEnd[i] = 1; 
-            }
-        }
-        for(int i=0;i<n;i++) {
             if(!visited[i])dfs(graph, isEnd, i, visited);
             if(isEnd[i]) ans.push_back(i);
         }
