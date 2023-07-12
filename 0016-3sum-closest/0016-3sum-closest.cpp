@@ -8,13 +8,13 @@ public:
             right = n-1;
             while(left<right) {
                 sum = nums[i]+nums[left] + nums[right];
-                if(sum==target) {
-                    return target;
-                }
-                if(ans==INT_MAX)  ans = sum;
-                else if (abs(target-sum)<=abs(target-ans)) ans = sum;
+                if(sum==target) return target;
+                // update limits
                 if(sum<target) left++;
                 else right--;
+                // update answer
+                if(ans==INT_MAX)  ans = sum;
+                else if (abs(target-sum)<=abs(target-ans)) ans = sum;
             }
         }
         return ans;
