@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 var findOrder = function(numCourses, prerequisites) {
-    let indegree = Array(numCourses).fill(0), graph = new Map(), ans = [];
+    let indegree = new Array(numCourses).fill(0), graph = new Map(), ans = [];
 
     for(let i=0;i<numCourses;i++) {
         graph[i] = [];
