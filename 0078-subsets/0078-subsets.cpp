@@ -2,18 +2,17 @@ class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int> temp;
-        ans.push_back({});
-        recurse(0,nums,ans,temp);
+        int index = 0;
+        vector<int>temp;
+        recurse(nums, ans, temp ,index);
         return ans;
     }
     
-    void recurse(int index, vector<int> &nums ,vector<vector<int>>&ans, vector<int> & temp) {
-        for(int i=index;i<nums.size();i++) {
-            temp.push_back(nums[i]);
-            ans.push_back(temp);
-            recurse(i+1,nums,ans, temp);
-            temp.pop_back();
-        }
+    void recurse(vector<int> &nums, vector<vector<int>>& ans, vector<int>&temp ,int index) {
+        if(index>=nums.size()) {ans.push_back(temp); return;}
+        temp.push_back(nums[index]);
+        recurse(nums,ans,temp,index+1);
+        temp.pop_back();
+        recurse(nums,ans,temp,index+1);
     }
 };
