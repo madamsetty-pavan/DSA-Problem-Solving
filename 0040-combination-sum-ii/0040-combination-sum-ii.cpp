@@ -14,12 +14,10 @@ public:
             return;
         }
         for(int i = index; i < candidates.size(); i++) {
-            while(i!=index && i<candidates.size() &&candidates[i]==candidates[i-1]) i++;
-            if(i<candidates.size()) {
-                temp.push_back(candidates[i]);
-                recurse(candidates,temp,ans,i+1,sum+candidates[i],target);
-                temp.pop_back();
-            }
+            if(i!=index && candidates[i]==candidates[i-1]) continue;
+            temp.push_back(candidates[i]);
+            recurse(candidates,temp,ans,i+1,sum+candidates[i],target);
+            temp.pop_back();
         }
     }
 };
