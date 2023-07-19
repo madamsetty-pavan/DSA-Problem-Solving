@@ -14,6 +14,7 @@ public:
             return;
         }
         for(int i = index; i < candidates.size(); i++) {
+            if(candidates[i]>target) break;
             if(i!=index && candidates[i]==candidates[i-1]) continue;
             temp.push_back(candidates[i]);
             recurse(candidates,temp,ans,i+1,sum+candidates[i],target);
