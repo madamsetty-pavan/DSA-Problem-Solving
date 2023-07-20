@@ -3,7 +3,8 @@ public:
     vector<int> asteroidCollision(vector<int>& nums) {
         vector<int> ans;
         bool pushFlag = 1;
-        for(int i=0;i<nums.size();i++) {
+        int n = nums.size();
+        for(int i=0;i<n;i++) {
            if(ans.size() && ans.back()>0 && nums[i]<0) {
                pushFlag = 1;
                while(ans.size() && ans.back()>0 && nums[i]<0) {
