@@ -3,17 +3,18 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-    let res = [], arr = [], index =0;
-
-    function recur(arr, index, nums) {
-        if(index==nums.length) { res.push(arr); return; }
-        
-        recur([...arr, nums[index]], index+1, nums);
-        
-        recur(arr, index+1, nums);
+    let ans = [], buffer = [];
+    recurse(0);
+    return ans;
+    
+    function recurse(index) {
+        if(index==nums.length) {
+            ans.push(buffer.slice());
+            return;
+        }
+        buffer.push(nums[index]);
+        recurse(index+1);
+        buffer.pop();
+        recurse(index+1);
     }
-
-    recur(arr,index, nums);
-    return res;
 };
-
