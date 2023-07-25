@@ -9,7 +9,7 @@ public:
         return mp[0];
     }
     
-    vector<string> recurse(string s, unordered_set<string>&words, vector<string>&ans, int index, unordered_map<int,vector<string>>&mp, int n ) {
+    vector<string> recurse(string &s, unordered_set<string>&words, vector<string>&ans, int index, unordered_map<int,vector<string>>&mp, int &n ) {
         if(mp.find(index) != mp.end()) {
             return mp[index];
         }
