@@ -1,11 +1,8 @@
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string>words;
+        unordered_set<string>words(wordDict.begin(),wordDict.end());
         vector<int>dp(s.size(),-1);
-        for(auto x:wordDict) {
-            words.insert(x);
-        }
         return recurse(s,words,0,dp);
     }
     
