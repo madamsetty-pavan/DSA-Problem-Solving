@@ -15,7 +15,7 @@ public:
     bool isFeasible(vector<int>& dist, double &hour, int mid) {
         double time = 0;
         for(int i=0;i<dist.size()-1;i++) {
-            time += (dist[i] + mid - 1) / mid;
+            time += ceil((double)dist[i]/mid);
         }
         time += (double) dist.back()/mid;
         return (time<=hour);
