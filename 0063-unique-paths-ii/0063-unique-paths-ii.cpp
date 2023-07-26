@@ -26,33 +26,61 @@
 
 // tabulation
 
+// class Solution {
+// public:
+//     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+//         int m = obstacleGrid.size(), n = obstacleGrid[0].size();
+//         if(obstacleGrid[m-1][n-1] == 1) return 0; 
+//         vector<vector<int>> dp(m, vector<int>(n,0));
+        
+//         for(int i = m-1;i>=0;i--) {
+//             for(int j = n-1;j>=0;j--) {
+//                 if(i==m-1 && j==n-1) dp[i][j] = 1;
+//                 else {
+//                     if(obstacleGrid[i][j]==1) { dp[i][j]= 0 ;continue; }
+//                     long long ans = 0;
+//                     if(i+1<m) {
+//                         ans += dp[i+1][j];
+//                     }
+//                     if(j+1<n) {
+//                         ans += dp[i][j+1];
+//                     }
+//                     dp[i][j] = ans;
+//                 }
+//             }
+//         }
+//         return dp[0][0];
+//     }
+// };
+
+
+// Space optimised
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int m = obstacleGrid.size(), n = obstacleGrid[0].size();
         if(obstacleGrid[m-1][n-1] == 1) return 0; 
-        vector<vector<int>> dp(m, vector<int>(n,0));
+        vector<int> prev(n,0);
         
         for(int i = m-1;i>=0;i--) {
+            vector<int> temp(n,0);
             for(int j = n-1;j>=0;j--) {
-                if(i==m-1 && j==n-1) dp[i][j] = 1;
+                if(i==m-1 && j==n-1) temp[j] = 1;
                 else {
-                    if(obstacleGrid[i][j]==1) { dp[i][j]= 0 ;continue; }
+                    if(obstacleGrid[i][j]==1) { temp[j]= 0 ;continue; }
                     long long ans = 0;
                     if(i+1<m) {
-                        ans += dp[i+1][j];
+                        ans += prev[j];
                     }
                     if(j+1<n) {
-                        ans += dp[i][j+1];
+                        ans += temp[j+1];
                     }
-                    dp[i][j] = ans;
+                    temp[j] = ans;
                 }
             }
+            prev = temp;
         }
-        return dp[0][0];
+        return prev[0];
     }
 };
-
-
-// Space optimised
 
