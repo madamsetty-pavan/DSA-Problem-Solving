@@ -19,26 +19,52 @@
 
 
 // tabulation
+// class Solution {
+// public:
+//     int uniquePaths(int m, int n) {
+//         vector<vector<int>> dp(m,vector<int>(n,-1));
+//         dp[m-1][n-1] = 1;
+//         int ans = 0;
+//         for(int i = m-1;i>=0;i--) {
+//             for(int j = n-1;j>=0;j--) {
+//                 if(i==m-1 && j == n-1) continue;
+//                 ans = 0;
+//                 if(i+1<m) {
+//                     ans += dp[i+1][j];
+//                 }
+//                 if(j+1<n) {
+//                     ans += dp[i][j+1];
+//                 }
+//                 dp[i][j] = ans;
+//             }
+//         }
+//         return dp[0][0];
+//     }
+// };
+
+// Space optimised
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m,vector<int>(n,-1));
-        dp[m-1][n-1] = 1;
-        int ans = 0;
+        vector<int> prev(n,0);
         for(int i = m-1;i>=0;i--) {
+            vector<int> temp(n,0);
             for(int j = n-1;j>=0;j--) {
-                if(i==m-1 && j == n-1) continue;
-                ans = 0;
-                if(i+1<m) {
-                    ans += dp[i+1][j];
+                if(i == m-1 && j == n-1)  temp[j] = 1;
+                else {
+                    int curr = 0;
+                    if(i+1<m) {
+                        curr += prev[j];
+                    }
+                    if(j+1<n) {
+                        curr += temp[j+1];
+                    }
+                        temp[j] = curr;
                 }
-                if(j+1<n) {
-                    ans += dp[i][j+1];
-                }
-                dp[i][j] = ans;
             }
+            prev = temp;
         }
-        return dp[0][0];
+        return prev[0];
     }
 };
 
