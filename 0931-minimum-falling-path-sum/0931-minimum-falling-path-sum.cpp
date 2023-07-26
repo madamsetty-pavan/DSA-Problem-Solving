@@ -47,27 +47,58 @@
 
 
 // Tabulation
+// class Solution {
+// public:
+//     int minFallingPathSum(vector<vector<int>>& matrix) {
+//         int ans = INT_MAX;
+//         int n = matrix.size();
+//         vector<vector<int>> dp(n,vector<int>(n,0));
+//         for(int i=n-1; i>=0; i-- ) {
+//             for(int j = n-1; j>=0; j--) {
+//                 if(i==n-1) dp[i][j]=matrix[i][j];
+//                 else {
+//                     int left = INT_MAX;
+//                     if(j-1>=0) left = dp[i+1][j-1];
+//                     int right = INT_MAX;
+//                     if(j+1<n) right = dp[i+1][j+1];
+//                     int middle = dp[i+1][j];
+//                     dp[i][j] = matrix[i][j] + min(left, min(right,middle));
+//                 }
+//             }
+//         }
+//         for(int i=0;i<n;i++) {
+//             ans = min(ans, dp[0][i]);
+//         }
+//         return ans;
+//     }
+// };
+
+
+// Space Optmised
+
 class Solution {
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int ans = INT_MAX;
         int n = matrix.size();
-        vector<vector<int>> dp(n,vector<int>(n,0));
+        vector<int> prev(n,0);
         for(int i=n-1; i>=0; i-- ) {
+            vector<int> temp(n,0);
             for(int j = n-1; j>=0; j--) {
-                if(i==n-1) dp[i][j]=matrix[i][j];
+                if(i==n-1) temp[j]=matrix[i][j];
                 else {
                     int left = INT_MAX;
-                    if(j-1>=0) left = dp[i+1][j-1];
+                    if(j-1>=0) left = prev[j-1];
                     int right = INT_MAX;
-                    if(j+1<n) right = dp[i+1][j+1];
-                    int middle = dp[i+1][j];
-                    dp[i][j] = matrix[i][j] + min(left, min(right,middle));
+                    if(j+1<n) right = prev[j+1];
+                    int middle = prev[j];
+                    temp[j] = matrix[i][j] + min(left, min(right,middle));
                 }
             }
+            prev = temp;
         }
         for(int i=0;i<n;i++) {
-            ans = min(ans, dp[0][i]);
+            ans = min(ans, prev[i]);
         }
         return ans;
     }
