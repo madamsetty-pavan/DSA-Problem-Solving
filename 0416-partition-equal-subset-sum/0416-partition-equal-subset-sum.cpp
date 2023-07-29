@@ -58,6 +58,36 @@
 
 
 // Tabulation
+// class Solution {
+// public:
+//     bool canPartition(vector<int>& nums) {
+//         int sum = 0;
+//         for(auto x:nums) {
+//             sum += x;
+//         }
+//         if(sum%2!=0) return false;
+//         sum /=2;
+//         vector<vector<int>> dp(nums.size(),vector<int>(sum+1,0));
+//         for(int i=0; i<nums.size();i++) {
+//             dp[i][0] = 1;
+//         }
+//         if(nums[0]<=sum) dp[0][nums[0]] = 1;
+//         for(int index = 1;index<nums.size();index++) {
+//             for(int target = 0;target<=sum;target++) {
+//                 bool take = false;
+//                 if(target>=nums[index]) {
+//                     take = dp[index-1][target-nums[index]];
+//                 }
+//                 bool notTake = dp[index-1][target];
+//                 dp[index][target] = take || notTake;
+//             }
+//         }
+//         return dp[nums.size()-1][sum];
+//     }
+// };
+
+// Tabulation - Space Optimised
+
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
@@ -67,28 +97,23 @@ public:
         }
         if(sum%2!=0) return false;
         sum /=2;
-        vector<vector<int>> dp(nums.size(),vector<int>(sum+1,0));
-        for(int i=0; i<nums.size();i++) {
-            dp[i][0] = 1;
-        }
-        if(nums[0]<=sum) dp[0][nums[0]] = 1;
+        vector<int> prev(sum+1,0), temp(sum+1,0);
+        prev[0] = 1;
+        if(nums[0]<=sum) temp[nums[0]] = 1;
         for(int index = 1;index<nums.size();index++) {
             for(int target = 0;target<=sum;target++) {
                 bool take = false;
                 if(target>=nums[index]) {
-                    take = dp[index-1][target-nums[index]];
+                    take = prev[target-nums[index]];
                 }
-                bool notTake = dp[index-1][target];
-                dp[index][target] = take || notTake;
+                bool notTake = prev[target];
+                temp[target] = take || notTake;
             }
+            prev = temp;
         }
-        return dp[nums.size()-1][sum];
+        return prev[sum];
     }
 };
-
-// Tabulation - Space Optimised
-
-
 
 
 
