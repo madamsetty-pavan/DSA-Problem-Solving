@@ -39,27 +39,51 @@
 // };
 
 // Tabulation
+// class Solution {
+// public:
+//     int change(int amount, vector<int>& coins) {
+//         int n = coins.size();
+//         vector<vector<int>> dp(n,vector<int>(amount+1,0));
+//         for(int i=0;i<n;i++) {
+//             dp[i][0] = 1; 
+//         }
+//         for(int a=0;a<=amount;a++) {
+//             if(a%coins[0]==0) dp[0][a] = 1;
+//         }
+//         for(int index = 1;index<n;index++) {
+//             for(int a = 1; a<=amount; a++) {
+//                 int notTake = dp[index-1][a];
+//                 int take = 0;
+//                 if(a>=coins[index]) {
+//                     take = dp[index][a-coins[index]];
+//                 }
+//                 dp[index][a] = take+notTake;
+//             }
+//         }
+//         return dp[n-1][amount];
+//     }
+// };
+
+// Tabulation with Space Optimised
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,0));
-        for(int i=0;i<n;i++) {
-            dp[i][0] = 1; 
-        }
+        vector<int> prev(amount+1,0), curr(amount+1,0);
         for(int a=0;a<=amount;a++) {
-            if(a%coins[0]==0) dp[0][a] = 1;
+            if(a%coins[0]==0) prev[a] = 1;
         }
         for(int index = 1;index<n;index++) {
-            for(int a = 1; a<=amount; a++) {
-                int notTake = dp[index-1][a];
+            for(int a = 0; a<=amount; a++) {
+                int notTake = prev[a];
                 int take = 0;
                 if(a>=coins[index]) {
-                    take = dp[index][a-coins[index]];
+                    take = curr[a-coins[index]];
                 }
-                dp[index][a] = take+notTake;
+                curr[a] = take+notTake;
             }
+            prev = curr;
         }
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
