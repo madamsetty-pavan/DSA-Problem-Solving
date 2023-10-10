@@ -1,9 +1,8 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
-        long long left = INT_MAX, right = INT_MIN, mid;
+        long long left = 1, right = INT_MIN, mid;
         for(long long x:bloomDay) {
-            left = min(left,x);
             right = max(right, x);
         }
         while(left<right) {
