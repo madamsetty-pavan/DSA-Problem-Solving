@@ -1,40 +1,49 @@
 class Solution {
 public:
     void solveSudoku(vector<vector<char>>& board) {
-        solveSudoku(board,0,0);
+        int n = board.size();
+        solveSudoku(board, 0, 0,n);
     }
-    
-    bool check(vector<vector<char>> &board, int i, int j, char val)
-{
-    int row = i - i%3, column = j - j%3;
-    for(int x=0; x<9; x++) if(board[x][j] == val) return false;
-    for(int y=0; y<9; y++) if(board[i][y] == val) return false;
-    for(int x=0; x<3; x++)
-    for(int y=0; y<3; y++)
-        if(board[row+x][column+y] == val) return false;
-    return true;
-}
-bool solveSudoku(vector<vector<char>> &board, int i, int j)
-{
-    if(i==9) return true;
-    if(j==9) return solveSudoku(board, i+1, 0);
-    if(board[i][j] != '.') return solveSudoku(board, i, j+1);
 
-    for(char c='1'; c<='9'; c++)
-    {
-        if(check(board, i, j, c))
-        {
-            board[i][j] = c;
-            if(solveSudoku(board, i, j+1)) return true;
-            board[i][j] = '.';
+
+    bool solveSudoku(vector<vector<char>>& board, int row, int col, int& size) {
+        if(row == size) {
+            return true;
         }
+        if(col == size) {
+            return solveSudoku(board, row+1, 0, size);
+        }
+        if(board[row][col] != '.' ) {
+            return solveSudoku(board, row, col+1, size);
+        }
+
+        for(char c='1'; c <= '9'; c++) {
+            if(isFeasible(board, c, row, col, size)) {
+                board[row][col] = c;
+                if(solveSudoku(board,row,col+1,size)) return true;
+                board[row][col] = '.';
+            }
+        }
+        return false;
     }
-        
-    return false;
-}
+
+    bool isFeasible(vector<vector<char>>&board, char value, int &row, int& col, int& size) {
+        int i =0, j = 0;
+        cout<<value<<endl;
+        for(int i=0; i<size; i++){
+            if(board[row][i] == value || board[i][col] == value) return false;
+        }
+        int initialR = row - row%3;
+        int initialC = col - col%3;
+        i = initialR; j = initialC;
+        while(i<initialR + 3) {
+            j = initialC;
+            while(j<initialC+3) {
+                if(board[i][j] == value) return false;
+                j++;
+            }
+            i++;
+        }
+        return true;
+    }
 };
-
-
-
-// Time Complexity: O(9^(m * n))
-// Space Complexity: O(m*n)
