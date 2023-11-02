@@ -28,11 +28,9 @@ public:
         }
         for(int i=0;i<n;i++) {
             if(row+i<n) {
-                if(col+i<n && board[row+i][col+i] == 'Q') return false;
                 if(col-i>=0 && board[row+i][col-i] == 'Q') return false; 
             } 
             if(row-i >=0) {
-                if(col+i<n && board[row-i][col+i] == 'Q') return false;
                 if(col-i>=0 && board[row-i][col-i] == 'Q') return false;
             }
         }
