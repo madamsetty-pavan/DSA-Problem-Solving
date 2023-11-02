@@ -13,38 +13,43 @@ public:
     ListNode* sortList(ListNode* head) {
         return mergeSort(head);
     }
-    
+
     ListNode* mergeSort(ListNode* &head) {
         if(!head || !head->next) return head;
         ListNode* slow = head, *fast = head, *prev = NULL;
-        while(fast && fast->next) {
+        while (fast && fast->next) {
             prev = slow;
             slow = slow->next;
-            fast = fast -> next -> next;
+            fast = fast->next->next;
         }
-        prev -> next = NULL;
-        ListNode* firstHalf = mergeSort(head);
-        ListNode* secondHalf = mergeSort(slow);
-        return merge(firstHalf, secondHalf);
+        prev->next = NULL;
+        ListNode* first = mergeSort(head);
+        ListNode* second = mergeSort(slow);
+        head = merge(first, second);
+        return head;
     }
     
-    ListNode* merge(ListNode* &firstHalf, ListNode* &secondHalf) {
-        ListNode* answer = new ListNode(), *ans = answer;
-        while(firstHalf && secondHalf) {
-            if(firstHalf->val<secondHalf->val) {
-                answer -> next = firstHalf;
-                firstHalf = firstHalf -> next;
+    ListNode* merge(ListNode* &first, ListNode* &second) {
+        ListNode* ans = new ListNode(), *curr = ans;
+        while(first && second) {
+            if(first->val <= second->val) {
+                curr->next = first;
+                first=first->next;
             } else {
-                answer -> next = secondHalf;
-                secondHalf = secondHalf -> next;
+                curr->next = second;
+                second = second->next;
             }
-            answer = answer-> next;
+            curr = curr->next;
         }
-        if(firstHalf) {
-            answer -> next = firstHalf;
+        while(first) {
+            curr->next = first;
+            curr = curr->next;
+            first = first->next;
         }
-        if(secondHalf) {
-            answer -> next = secondHalf;
+        while(second) {
+            curr->next = second;
+            curr = curr->next;
+            second = second->next;
         }
         return ans->next;
     }
