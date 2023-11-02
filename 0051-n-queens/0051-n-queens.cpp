@@ -2,47 +2,41 @@ class Solution {
 public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
-        string s(n,'.');
-        vector<string> board(n,s);
-        recurse(ans,board,n,0);
+        string str(n,'.');
+        vector<string> board(n,str);
+        findQueens(board, ans, 0, n);
         return ans;
     }
-    
-    void recurse(vector<vector<string>>&ans, vector<string>&board, int n, int column) {
-        if(column==n) {
+
+    void findQueens(vector<string>&board, vector<vector<string>>&ans, int col, int& n) {
+        if(col == n){
             ans.push_back(board);
             return;
-        }
+        } 
         for(int i=0;i<n;i++) {
-            if(safe(board,i,column, n)) {
-                board[i][column] = 'Q';
-                recurse(ans,board,n,column+1);
-                board[i][column] = '.';
+            if(isSafe(board, i, col, n)) {
+                board[i][col] = 'Q';
+                findQueens(board, ans, col+1, n);
+                board[i][col] = '.';
             }
         }
     }
-    
-    bool safe(vector<string>&board, int row, int column, int n) {
-        // check row wise
+
+    bool isSafe(vector<string>& board, int row, int col, int& n) {
+        for (int i=0; i<n; i++) {
+            if(board[row][i] == 'Q' || board[i][col] == 'Q') return false;
+        }
         for(int i=0;i<n;i++) {
-            if(board[row][i]=='Q') return false;
-        }
-        
-        // check column wise
-        for(int i=0;i<n;i++) {
-            if(board[i][column]=='Q') return false;
-        }
-        
-        // check upper diagonally
-        for(int i=row,j=column;i>=0&&j>=0;j--,i--) {
-            if(board[i][j]=='Q') return false;
-        }
-       
-        // check lower diagolnally
-        for(int i=row,j=column;i<n&&j>=0;i++,j--) {
-            if(board[i][j]=='Q') return false;
+            if(row+i<n) {
+                if(col+i<n && board[row+i][col+i] == 'Q') return false;
+                if(col-i>=0 && board[row+i][col-i] == 'Q') return false; 
+            } 
+            if(row-i >=0) {
+                if(col+i<n && board[row-i][col+i] == 'Q') return false;
+                if(col-i>=0 && board[row-i][col-i] == 'Q') return false;
+            }
         }
         return true;
     }
-    
+
 };
