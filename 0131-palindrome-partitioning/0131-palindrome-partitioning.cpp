@@ -13,19 +13,16 @@ public:
             ans.push_back(temp);
             return;
         }
-        string str = "";
         for(int i=index;i<n;i++) {
-            str+=s[i];
-            if(isPalindrome(str)) {
-                temp.push_back(str);
+            if(isPalindrome(s, index, i)) {
+                temp.push_back(s.substr(index, i-index+1));
                 recursion(i+1, s, ans, temp, n);
                 temp.pop_back();
             }
         }
     }
     
-    bool isPalindrome(string &s) {
-        int i = 0, j = s.size()-1;
+    bool isPalindrome(string &s, int i, int j) {
         while(i<=j) {
             if(s[i]!=s[j]) return false;
             i++;
