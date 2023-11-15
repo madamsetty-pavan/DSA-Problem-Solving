@@ -2,33 +2,34 @@ class Solution {
 public:
     vector<vector<string>> partition(string s) {
         vector<vector<string>> ans;
-        vector<string>temp;
-        recurse(ans,temp,s,0);
+        vector<string> temp;
+        int n = s.size();
+        recursion(0, s, ans, temp, n);
         return ans;
     }
     
-    void recurse(vector<vector<string>>&ans, vector<string>&temp, string s, int index) {
-        if(index==s.size()) {
+    void recursion(int index, string &s , vector<vector<string>>&ans, vector<string>&temp, int &n) {
+        if(index==n) {
             ans.push_back(temp);
             return;
         }
         string str = "";
-        for(int i=index;i<s.size();i++) {
-            str += s[i];
-            if(isPalindrome(str)){
+        for(int i=index;i<n;i++) {
+            str+=s[i];
+            if(isPalindrome(str)) {
                 temp.push_back(str);
-                recurse(ans,temp,s,i+1);
+                recursion(i+1, s, ans, temp, n);
                 temp.pop_back();
             }
         }
     }
     
-    bool isPalindrome(string str) {
-        int first = 0, end= str.size()-1;
-        while(first<=end) {
-            if(str[first]!=str[end]) return false;
-            first++;
-            end--;
+    bool isPalindrome(string &s) {
+        int i = 0, j = s.size()-1;
+        while(i<=j) {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
         }
         return true;
     }
