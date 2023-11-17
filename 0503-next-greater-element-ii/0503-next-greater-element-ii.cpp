@@ -3,8 +3,9 @@ public:
     vector<int> nextGreaterElements(vector<int>& nums) {
         stack<int> st;
         st.push(nums.back());
+        int ele;
         for(int i=nums.size()-2;i>=0;i--) {
-            int ele = nums[i];
+            ele = nums[i];
             if(st.top()>ele) {
                 st.push(ele);
             } else {
@@ -16,7 +17,7 @@ public:
         }
         vector<int> ans;
         for(int i = nums.size()-1;i>=0;i--) {
-            int ele = nums[i];
+            ele = nums[i];
             if(st.top()>ele) {
                 ans.push_back(st.top());
             } else {
