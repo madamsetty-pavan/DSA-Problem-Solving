@@ -1,3 +1,9 @@
+static auto _ = [](){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return nullptr;
+}();
 class Solution {
 public:
     long long taskSchedulerII(vector<int>& tasks, int space) {
@@ -6,7 +12,7 @@ public:
         for(auto &x:tasks) {
             ans++;
             if(ans >= mp[x]) {
-                mp[x] = ans+ space +1;
+                mp[x] = ans + space +1;
             } else {
                 ans = mp[x];
                 mp[x] = ans + space+1;
