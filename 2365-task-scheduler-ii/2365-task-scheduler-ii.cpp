@@ -5,15 +5,11 @@ public:
         unordered_map<long long,long long> mp;
         for(auto &x:tasks) {
             ans++;
-            if(mp.find(x) == mp.end()) {
-                mp[x] = ans + space +1;
+            if(ans >= mp[x]) {
+                mp[x] = ans+ space +1;
             } else {
-                if(ans >= mp[x]) {
-                    mp[x] = ans+ space +1;
-                } else {
-                    ans = mp[x];
-                    mp[x] = ans + space+1;
-                }
+                ans = mp[x];
+                mp[x] = ans + space+1;
             }
         }
         return ans;
