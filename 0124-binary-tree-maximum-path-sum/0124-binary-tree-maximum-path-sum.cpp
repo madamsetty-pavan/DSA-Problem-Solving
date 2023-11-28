@@ -10,7 +10,6 @@
  * };
  */
 
-#define INT_MIN -1e5
 class Solution {
 public:
     int maxPathSum(TreeNode* root) {
@@ -27,5 +26,10 @@ public:
         ans = max(ans, root->val+left+right);
         int sum = root->val + max(left, right);
         return sum>0? sum: 0;
+    }
+    
+    int max(int a, int b) {
+        if(a>=b) return a;
+        return b;
     }
 };
