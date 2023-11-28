@@ -20,26 +20,12 @@ public:
     }
     
     int findSum(TreeNode* &root, int &ans) {
-        int left = INT_MIN, right = INT_MIN;
-        if(root->left) left = findSum(root->left, ans);
-        if(root->right) right = findSum(root->right, ans);
-        int maxValue = root->val;
-        if(left != INT_MIN && right!= INT_MIN) {
-            maxValue = max(maxValue, root->val+left+right);
-        }
-        if(left!=INT_MIN) {
-            maxValue = max(maxValue, root->val + left);
-        } 
-        if(right != INT_MIN) {
-            maxValue = max(maxValue, root->val + right);
-        }
-        ans = max(maxValue, ans);
-        if (root->val + left > 0 && root->val+left > root->val+right) {
-            return root->val +left;
-        } else if(root->val +right > 0 && root->val+left < root->val+right) {
-            return root->val + right;
-        }
-        if(root->val > 0) return root->val;
-        return INT_MIN;
+        if(!root) return 0;
+        int left = findSum(root->left, ans);
+        int right = findSum(root->right, ans);
+        
+        ans = max(ans, root->val+left+right);
+        int sum = root->val + max(left, right);
+        return sum>0? sum: 0;
     }
 };
