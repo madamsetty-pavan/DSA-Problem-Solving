@@ -23,17 +23,19 @@
 
 class Solution {
 public:
+    int large = 0;
+    int small = 0;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        int large = max(p->val, q->val);
-        int small = min(p->val, q->val);
-        return checkLCA(root, large, small);
+        large = max(p->val, q->val);
+        small = min(p->val, q->val);
+        return checkLCA(root);
     }
     
-    TreeNode* checkLCA(TreeNode* &root, int &large, int &small) {
+    TreeNode* checkLCA(TreeNode* &root) {
         if(root->val> large) {
-            return checkLCA(root->left, large,small);
+            return checkLCA(root->left);
         } else if(root->val < small) {
-            return checkLCA(root->right, large, small);
+            return checkLCA(root->right);
         }
         return root;
     }
