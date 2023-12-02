@@ -13,6 +13,7 @@ class BSTIterator {
 public:
     stack<TreeNode*> st;
     TreeNode *curr;
+    int ans;
     BSTIterator(TreeNode* root) {
         curr = root;
         while(curr) {
@@ -24,7 +25,7 @@ public:
     int next() {
         curr = st.top();
         st.pop();
-        int ans = curr->val;
+        ans = curr->val;
         if(curr->right) curr = curr->right;
         else curr = NULL;
         while(curr) {
@@ -35,7 +36,7 @@ public:
     }
     
     bool hasNext() {
-        return st.size()>0;
+        return !st.empty();
     }
 };
 
