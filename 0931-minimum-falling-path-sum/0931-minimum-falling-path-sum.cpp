@@ -1,108 +1,105 @@
-// Recursive solution
+// Top Down
 // class Solution {
 // public:
 //     int minFallingPathSum(vector<vector<int>>& matrix) {
-//         int ans = INT_MAX;
-//         for(int i=0;i<matrix.size();i++) {
-//             ans = min(ans, recurse(matrix,0,i));
+//         int m = matrix.size(), n = matrix[0].size();
+//         int mini = INT_MAX;
+//         for(int i=0;i<m;i++) {
+//             mini = min(mini, recurse(0,i,matrix,m,n));
 //         }
-//         return ans;
+//         return mini;
 //     }
     
-//     int recurse(vector<vector<int>>& matrix, int i, int j) {
-//         if(i==matrix.size()-1) return matrix[i][j];
-//         int left = INT_MAX;
-//         if(j-1>=0) left = recurse(matrix, i+1,j-1);
-//         int middle = recurse(matrix, i+1, j);
-//         int right = INT_MAX;
-//         if(j+1<matrix[0].size()) right = recurse(matrix, i+1,j+1);
-//         return matrix[i][j] + min(left, min(right,middle));
+//     int recurse(int i, int j, vector<vector<int>>& matrix, int &m, int &n) {
+//         if(i>=m || j>=n || j<0) return INT_MAX;
+//         if(i==m-1) return matrix[i][j];
+//         return matrix[i][j] + min(recurse(i+1,j-1,matrix,m,n), min(recurse(i+1,j,matrix,m,n), recurse(i+1,j+1,matrix,m,n)));
 //     }
 // };
 
 
-// // Recursive with memo
+// // Top Down - Memo
+// But will get TLE for this too
 // class Solution {
 // public:
 //     int minFallingPathSum(vector<vector<int>>& matrix) {
-//         int ans = INT_MAX;
-//         vector<vector<int>> dp(matrix.size(),vector<int>(matrix.size(),-1));
-//         for(int i=0;i<matrix.size();i++) {
-//             ans = min(ans, recurse(matrix,0,i,dp));
+//         int m = matrix.size(), n = matrix[0].size();
+//         vector<vector<int>> dp(m, vector<int>(n,-1));
+//         int mini = INT_MAX;
+//         for(int i=0;i<m;i++) {
+//             mini = min(mini, recurse(0,i,matrix,m,n,dp));
 //         }
-//         return ans;
+//         return mini;
 //     }
     
-//     int recurse(vector<vector<int>>& matrix, int i, int j,vector<vector<int>>& dp) {
-//         if(i==matrix.size()-1) return matrix[i][j];
+//     int recurse(int i, int j, vector<vector<int>>& matrix, int &m, int &n, vector<vector<int>>&dp) {
+//         if(i>=m || j>=n || j<0) return INT_MAX;
 //         if(dp[i][j]!=-1) return dp[i][j];
-//         int left = INT_MAX;
-//         if(j-1>=0) left = recurse(matrix, i+1,j-1,dp);
-//         int middle = recurse(matrix, i+1, j,dp);
-//         int right = INT_MAX;
-//         if(j+1<matrix[0].size()) right = recurse(matrix, i+1,j+1,dp);
-//         return dp[i][j] = (matrix[i][j] + min(left, min(right,middle)));
+//         if(i==m-1) return dp[i][j]=matrix[i][j];
+//         return dp[i][j]=matrix[i][j] + min(recurse(i+1,j-1,matrix,m,n, dp), min(recurse(i+1,j,matrix,m,n,dp), recurse(i+1,j+1,matrix,m,n,dp)));
 //     }
 // };
 
 
-// Tabulation
+// Bottom up
 // class Solution {
 // public:
 //     int minFallingPathSum(vector<vector<int>>& matrix) {
+//         int m = matrix.size(), n = matrix[0].size();
+//         vector<vector<int>> dp(m, vector<int>(n,-1));
 //         int ans = INT_MAX;
-//         int n = matrix.size();
-//         vector<vector<int>> dp(n,vector<int>(n,0));
-//         for(int i=n-1; i>=0; i-- ) {
-//             for(int j = n-1; j>=0; j--) {
-//                 if(i==n-1) dp[i][j]=matrix[i][j];
-//                 else {
-//                     int left = INT_MAX;
-//                     if(j-1>=0) left = dp[i+1][j-1];
-//                     int right = INT_MAX;
-//                     if(j+1<n) right = dp[i+1][j+1];
-//                     int middle = dp[i+1][j];
-//                     dp[i][j] = matrix[i][j] + min(left, min(right,middle));
+//         for(int i=m-1;i>=0;i--) {
+//             for(int j=n-1;j>=0;j--) {
+//                 if(i==m-1) {
+//                     dp[i][j] = matrix[i][j];
+//                 } else {
+//                     dp[i][j] = dp[i+1][j];
+//                     if(j-1>=0) {
+//                         dp[i][j] = min(dp[i][j], dp[i+1][j-1]);
+//                     }
+//                     if(j+1<m) {
+//                         dp[i][j] = min(dp[i][j], dp[i+1][j+1]);
+//                     }
+//                     dp[i][j] += matrix[i][j];
+//                     if(i==0) {
+//                         ans = min(ans, dp[i][j]);
+//                     }
 //                 }
 //             }
 //         }
-//         for(int i=0;i<n;i++) {
-//             ans = min(ans, dp[0][i]);
-//         }
 //         return ans;
 //     }
 // };
 
 
-// Space Optmised
-
+// Bottom up - Space Optimised
 class Solution {
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> dp(2, vector<int>(n,-1));
         int ans = INT_MAX;
-        int n = matrix.size();
-        vector<int> prev(n,0);
-        for(int i=n-1; i>=0; i-- ) {
-            vector<int> temp(n,0);
-            for(int j = n-1; j>=0; j--) {
-                if(i==n-1) temp[j]=matrix[i][j];
-                else {
-                    int left = INT_MAX;
-                    if(j-1>=0) left = prev[j-1];
-                    int right = INT_MAX;
-                    if(j+1<n) right = prev[j+1];
-                    int middle = prev[j];
-                    temp[j] = matrix[i][j] + min(left, min(right,middle));
+        for(int i=m-1;i>=0;i--) {
+            for(int j=n-1;j>=0;j--) {
+                if(i==m-1) {
+                    dp[0][j] = matrix[i][j];
+                    
+                } else {
+                    dp[0][j] = dp[1][j];
+                    if(j-1>=0) {
+                        dp[0][j] = min(dp[0][j], dp[1][j-1]);
+                    }
+                    if(j+1<m) {
+                        dp[0][j] = min(dp[0][j], dp[1][j+1]);
+                    }
+                    dp[0][j] += matrix[i][j];
+                }
+                if(i==0) {
+                    ans = min(ans, dp[0][j]);
                 }
             }
-            prev = temp;
-        }
-        for(int i=0;i<n;i++) {
-            ans = min(ans, prev[i]);
+            dp[1] = dp[0];
         }
         return ans;
     }
 };
-
-
-
