@@ -1,38 +1,61 @@
-#include<bits/stdc++.h>
+// Top - Down Approach
+// class Solution {
+// public:
+//     int minCut(string s) {
+//         int n = s.size();
+//         vector<int> dp(n,-1);
+//         return recurse(0, s, dp,n);
+//     }
+
+//     int recurse(int index, string &s, vector<int> &dp, int &n) {
+//         if(index >= n) return -1;
+//         if(dp[index] != -1) return dp[index];
+//         string str = "";
+//         int ans = INT_MAX;
+//         for(int i = index;i<n;i++) {
+//             str += s[i];
+//             if(isPalindrome(str)) {
+//                 ans = min(ans, 1 + recurse(i+1, s, dp, n));
+//             }
+//         }
+//         return dp[index] = ans;
+//     }
+    
+//     bool isPalindrome(string &str) {
+//         for(int i = 0, j = str.size()-1; i<j; i++,j--) {
+//             if(str[i] != str[j]) return false;
+//         }
+//         return true;
+//     }
+// };
+
+
+
+// Bottom up Approach
 class Solution {
 public:
     int minCut(string s) {
-        int ans = INT_MAX;
-        vector<string> temp;
         int n = s.size();
-        vector<int> cuts(n, INT_MAX);
-        recursion(0, s, ans, temp, n, cuts);
-        return cuts[0];
-    }
-    
-    void recursion(int index, string &s, int &ans, vector<string>&temp, int &n, vector<int>&cuts) {
-        for(int i=index; i<n; i++) {
-            if(isPalindrome(s, index, i)) {
-                if(i<n-1 && cuts[i+1] == INT_MAX) {
-                    temp.push_back(s.substr(index, i-index+1));
-                    recursion(i+1, s, ans, temp, n, cuts);
-                    temp.pop_back();
+        vector<int> dp(n,0);
+        for(int i=n-2; i>=0; i--) {
+            int ans = INT_MAX;
+            string str = "";
+            for(int j=i;j<n;j++) {
+                str += s[j];
+                if(isPalindrome(str)) {
+                    if(j+1<n) 
+                        ans = min(ans, 1 + dp[j+1]);
+                    else ans = min(ans, 0);
                 }
-                if(i==n-1) {
-                    cuts[index] = 0;
-                    return;
-                } 
-                // else cuts[i] = min(cuts[i], 1 + cuts[i+1]);
-                cuts[index] = min(cuts[index], 1 + cuts[i+1]);
             }
+            dp[i]  = ans;
         }
+        return dp[0];
     }
     
-    bool isPalindrome(string &s, int i, int j) {
-        while(i<=j) {
-            if(s[i]!=s[j]) return false;
-            i++;
-            j--;
+    bool isPalindrome(string &str) {
+        for(int i = 0, j = str.size()-1; i<j; i++,j--) {
+            if(str[i] != str[j]) return false;
         }
         return true;
     }
