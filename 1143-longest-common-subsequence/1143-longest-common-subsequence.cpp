@@ -27,8 +27,8 @@
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
-        vector<vector<int>> dp(text1.size(), vector<int>(text2.size(),0));
         int n = text1.size(), m = text2.size();
+        vector<vector<int>> dp(n, vector<int>(m,0));
         for(int i = 0;i < n; i++) {
             for(int j = 0;j < m; j++) {
                 if(text1[i] == text2[j]) {
