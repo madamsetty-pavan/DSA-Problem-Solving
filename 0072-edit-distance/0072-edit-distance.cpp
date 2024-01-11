@@ -45,37 +45,6 @@
 
 
 // Bottom up
-class Solution {
-public:
-    int minDistance(string word1, string word2) {
-        int n = word1.size(), m = word2.size();
-        vector<vector<int>> dp(n+1, vector<int>(m+1,0));
-        for(int i=0;i<=n;i++) {
-            dp[i][0] = i;
-        }
-        for(int j=0;j<=m;j++) {
-            dp[0][j] = j;
-        }
-        for(int i=1;i<=n;i++) {
-            for(int j=1;j<=m;j++) {
-                if(word1[i-1] == word2[j-1]) {
-                    dp[i][j] = dp[i-1][j-1];
-                } else {
-                    // Insert a new character
-                    dp[i][j] = 1 + dp[i][j-1];
-                    // Replace a given character
-                    dp[i][j] = min(dp[i][j] , 1 + dp[i-1][j-1]);
-                    // Delete a given character
-                    dp[i][j] = min(dp[i][j], 1 + dp[i-1][j]);
-                }
-            }
-        }
-        return dp[n][m];
-    }
-};
-
-
-
 // class Solution {
 // public:
 //     int minDistance(string word1, string word2) {
@@ -83,10 +52,12 @@ public:
 //         vector<vector<int>> dp(n+1, vector<int>(m+1,0));
 //         for(int i=0;i<=n;i++) {
 //             dp[i][0] = i;
-//             dp[0][i] = i;
 //         }
-//         for(int i=1;i<n;i++) {
-//             for(int j=1;j<m;j++) {
+//         for(int j=0;j<=m;j++) {
+//             dp[0][j] = j;
+//         }
+//         for(int i=1;i<=n;i++) {
+//             for(int j=1;j<=m;j++) {
 //                 if(word1[i-1] == word2[j-1]) {
 //                     dp[i][j] = dp[i-1][j-1];
 //                 } else {
@@ -104,9 +75,34 @@ public:
 // };
 
 
-
-
-
-
+// Bottom up - Space Optimised
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int n = word1.size(), m = word2.size();
+        vector<vector<int>> dp(2, vector<int>(m+1,0));
+        dp[0][0] = 0;
+        for(int j=0;j<=m;j++) {
+            dp[0][j] = j;
+        }
+        for(int i=1;i<=n;i++) {
+            dp[1][0] = i;
+            for(int j=1;j<=m;j++) {
+                if(word1[i-1] == word2[j-1]) {
+                    dp[1][j] = dp[0][j-1];
+                } else {
+                    // Insert a new character
+                    dp[1][j] = 1 + dp[1][j-1];
+                    // Replace a given character
+                    dp[1][j] = min(dp[1][j] , 1 + dp[0][j-1]);
+                    // Delete a given character
+                    dp[1][j] = min(dp[1][j], 1 + dp[0][j]);
+                }
+            }
+            dp[0] = dp[1];
+        }
+        return dp[0][m];
+    }
+};
 
 
