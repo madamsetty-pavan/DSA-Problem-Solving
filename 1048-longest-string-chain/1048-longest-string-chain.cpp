@@ -23,7 +23,7 @@ public:
     
     bool checkIfIS(string &s1, string &s2) {
         int i = 0, j = 0, n = s1.size(), m = s2.size(), flag = 0;
-        if(n==m || m-n>1) return false;
+        if(m-n != 1) return false;
         while(i<n && j<m) {
             if(s1[i] != s2[j]) {
                 if(flag == 1) return false;
