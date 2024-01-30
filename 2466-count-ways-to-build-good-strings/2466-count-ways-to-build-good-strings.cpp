@@ -31,7 +31,7 @@ public:
         vector<int> dp(high+1,-1);
         return (recurse(0, low, high, zero, one, dp));
     }
-    int recurse(int n, int &low, int &high,int zero, int one, vector<int>&dp) {
+    int recurse(int n, int &low, int &high,int &zero, int &one, vector<int>&dp) {
         if(n>high) return 0;
         int ans = 0;
         if(dp[n]!=-1) return dp[n];
