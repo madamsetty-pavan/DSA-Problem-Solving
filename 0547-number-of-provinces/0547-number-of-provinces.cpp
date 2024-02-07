@@ -14,9 +14,9 @@ public:
     }
     
     void recurse(vector<vector<int>>& isConnected, vector<int>&visited, int index) {
+        visited[index] = 1;
         for(int i=0;i<isConnected[index].size();i++) {
             if(isConnected[index][i] == 1 && visited[i] == 0) {
-                visited[i] = 1;
                 recurse(isConnected, visited,i);   
             }
         }
