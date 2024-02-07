@@ -17,7 +17,7 @@ public:
         if(visited[index]) return;
         visited[index] = 1;
         for(int i=0;i<isConnected[index].size();i++) {
-            if(isConnected[index][i] == 1) {
+            if(isConnected[index][i] == 1 && visited[i] == 0) {
                 recurse(isConnected, visited,i);   
             }
         }
