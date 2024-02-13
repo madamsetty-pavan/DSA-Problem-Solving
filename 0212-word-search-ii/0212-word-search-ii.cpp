@@ -23,42 +23,22 @@ public:
         return root;
     }
     
-//     void traverse(TrieNode* root) {
-//         for(int i=0;i<26;i++) {
-//             if(root->children[i] != NULL ){
-//                 cout<<static_cast<char>(i+'a')<<" ";
-//                 if(root->isEnd) cout<<"END OF WORD"<<endl;
-//                 traverse(root->children[i]);
-//             }
-//         }
-        
-//     }
-    
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         TrieNode* root = makeTrie(words);
-        // for(int i=0;i<26;i++) {
-        //     cout<<static_cast<char>(i+'a')<<" "<<root->children[i]<<endl;
-        // }
-        // cout<<endl;
-        //traverse(root);
         vector<string> ans;
         unordered_set<string> st;
         int m = board.size(), n = board[0].size();
         for(int i=0;i<m;i++) {
             for(int j=0;j<n;j++) {
-                // cout<<board[i][j]<<" "<<root->children[board[i][j]-'a']<<endl;
                 if(root->children[board[i][j]-'a'] != NULL) {
-                    // cout<<board[i][j]<<endl;
-                    string str = "";
-                    recurse(root, str, i, j, m , n, board, st);
+                    recurse(root, "", i, j, m , n, board, st, ans);
                 }
             }
         }
-        for(auto &x:st) {ans.push_back(x);}
         return ans;
     }
     
-    void recurse(TrieNode* root, string str, int i, int j, int &m, int &n, vector<vector<char>>& board, unordered_set<string> &st) {
+    void recurse(TrieNode* root, string str, int i, int j, int &m, int &n, vector<vector<char>>& board, unordered_set<string> &st, vector<string>&ans) {
         if(!root || i<0 || j<0 || i>=m | j>=n || board[i][j] == ' ') return;
         if(root->children[board[i][j]-'a'] != NULL) {
             str += board[i][j];
@@ -66,13 +46,16 @@ public:
             root = root->children[board[i][j]-'a'];
             char c = board[i][j];
             if(root->isEnd == true) {
+                if(st.find(str) == st.end()) {
+                    ans.push_back(str);
+                }
                 st.insert(str);
             }
             board[i][j] = ' ';
-            recurse(root, str, i+1, j, m, n, board, st);
-            recurse(root, str, i-1, j, m, n, board, st);
-            recurse(root, str, i, j+1, m, n, board, st);
-            recurse(root, str, i, j-1, m, n, board, st);
+            recurse(root, str, i+1, j, m, n, board, st, ans);
+            recurse(root, str, i-1, j, m, n, board, st, ans);
+            recurse(root, str, i, j+1, m, n, board, st, ans);
+            recurse(root, str, i, j-1, m, n, board, st, ans);
             board[i][j] = c;
         }
     }
