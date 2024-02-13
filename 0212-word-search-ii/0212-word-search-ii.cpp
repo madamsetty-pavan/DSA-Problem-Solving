@@ -1,13 +1,8 @@
 class TrieNode {
     public:
-        bool isEnd;
-        vector<TrieNode*> children;
-        TrieNode() {
-            isEnd = false;
-            children = vector<TrieNode*>(26,NULL);   
-        }
+        bool isEnd = false;
+        TrieNode *children[26];
 };
-
 class Solution {
 public:
     TrieNode* makeTrie(vector<string>&words) {
@@ -42,7 +37,6 @@ public:
         if(!root || i<0 || j<0 || i>=m | j>=n || board[i][j] == ' ') return;
         if(root->children[board[i][j]-'a'] != NULL) {
             str += board[i][j];
-            // cout<<str<<endl;
             root = root->children[board[i][j]-'a'];
             char c = board[i][j];
             if(root->isEnd == true) {
