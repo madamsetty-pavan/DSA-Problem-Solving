@@ -22,9 +22,10 @@ public:
         if(!root) return root;
         queue<Node*> qu;
         qu.push(root);
+        Node* prev;
         while(qu.size()) {
             int n = qu.size();
-            Node* prev = NULL;
+            prev = NULL;
             for(int i=0;i<n;i++) {
                 auto front = qu.front();
                 qu.pop();
