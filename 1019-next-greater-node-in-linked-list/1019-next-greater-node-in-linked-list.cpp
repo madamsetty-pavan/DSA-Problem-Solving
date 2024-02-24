@@ -11,7 +11,7 @@
 class Solution {
 public:
     vector<int> nextLargerNodes(ListNode* head) {
-        vector<int> ans, nums;
+        vector<int> ans;
         stack<int> st;
         int count = -1;
         ListNode* curr = head;
