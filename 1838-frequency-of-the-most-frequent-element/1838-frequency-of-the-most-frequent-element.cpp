@@ -7,7 +7,6 @@ public:
             sum += nums[left];
             while((long long)(right-left+1)*target - sum > k) {
                 sum -= nums[right--];
-                if(right<0) return ans;
                 target = nums[right];
             }
             ans = max(ans, (right-left+1));
