@@ -4,9 +4,9 @@ public:
         int n = s.size();
         int index = 0, sign = 1, notInt = 0;
         while(index<n) {
-            if(s[index] =='-') {
+            if(s[index] =='-' || s[index] == '+') {
                 if(notInt) return 0;
-                sign = -1;
+                if(s[index] == '-') sign = -1;
                 notInt = 1;
                 index++;
             } else if(s[index] == ' ') {
@@ -14,10 +14,6 @@ public:
                 index++;
             } else if(s[index]>='0' && s[index]<='9'){
                 break;
-            } else if(s[index]=='+'){
-                if(notInt) return 0;
-                notInt = 1;
-                index++;
             } else {
                 return 0;
             }
