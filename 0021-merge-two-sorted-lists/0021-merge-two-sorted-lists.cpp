@@ -14,8 +14,15 @@ public:
         if(!list1 && !list2) return list1;
         if(!list1) return list2;
         if(!list2) return list1;
-        ListNode* curr1 = list1, *curr2 = list2;
-        ListNode* ans = new ListNode(0), *curr = ans;
+        ListNode* curr1 = list1, *curr2 = list2, *ans, *curr;
+        if(curr1->val<=curr2->val) {
+            ans = curr1;
+            curr1 = curr1->next;
+        } else {
+            ans = curr2;
+            curr2 = curr2 -> next;
+        }
+        curr = ans;
         while (curr1 && curr2) {
             if (curr1->val <= curr2->val) {
                 curr->next = curr1;
@@ -32,6 +39,6 @@ public:
         if(curr2) {
             curr->next = curr2;
         }
-        return ans->next;
+        return ans;
     }
 };
