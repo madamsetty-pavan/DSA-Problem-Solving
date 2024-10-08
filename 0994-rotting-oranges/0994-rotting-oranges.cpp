@@ -1,40 +1,44 @@
 class Solution {
 public:
+    struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2>& pair) const {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
+    static constexpr int directions[5] = {-1,0,1,0,-1};
     int orangesRotting(vector<vector<int>>& grid) {
-        int n = grid.size(), m = grid[0].size();
+        int ans = -1, n = grid.size(), m = grid[0].size();
+        unordered_set<pair<int,int>, pair_hash> st;
         queue<pair<int,int>> qu;
-        vector<int> directions = {-1,0,1,0,-1};
-        int fresh = 0;
         for(int i=0;i<n;i++) {
             for(int j=0;j<m;j++) {
-                if(grid[i][j] == 2) {
+                if (grid[i][j] == 1) {
+                    st.insert({i,j});
+                } else if(grid[i][j] == 2) {
                     qu.push({i,j});
-                }
-                if(grid[i][j] == 1) {
-                    fresh++;
-                }
-            }
-        }       
-        int ans = -1;
-        while(!qu.empty()) {
-            ans++;
-            int sz = qu.size();
-            while(sz--) {
-                auto front = qu.front();
-                qu.pop();
-                for(int j=0;j<4;j++) {
-                    int x = front.first + directions[j];
-                    int y = front.second + directions[j+1];
-                    if(x<n && y<m && x>=0 && y>= 0 && grid[x][y] == 1) {
-                        grid[x][y] = 2;
-                        fresh--;
-                        qu.push({x,y});
-                    }
                 }
             }
         }
-        if(fresh>0) return -1;
-        if(ans == -1) return 0;
+        if(st.size() == 0) return 0;
+        if(qu.size() == 0) return -1;
+        while(qu.size()) {
+            int qSize = qu.size();
+            for(int i=0;i<qSize;i++) {
+                auto curr = qu.front();
+                qu.pop();
+                for(int j=0;j<4;j++) {
+                    int nextX = curr.first + directions[j];
+                    int nextY = curr.second + directions[j+1];
+                    if (st.find({nextX,nextY}) != st.end()) {
+                       st.erase({nextX,nextY});
+                       qu.push({nextX, nextY}); 
+                    }
+                }
+            }
+            ans++;
+        }
+        if(st.size() !=0 ) return -1;
         return ans;
     }
 };
